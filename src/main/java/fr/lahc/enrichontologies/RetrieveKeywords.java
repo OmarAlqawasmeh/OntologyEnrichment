@@ -1,3 +1,4 @@
+package fr.lahc.enrichontologies;
 import java.io.FileNotFoundException;
 
 import org.apache.jena.query.ReadWrite;

@@ -1,0 +1,5 @@
+52:42,326 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.Initialize:35 - Initilizing ontology /data/saref-core/ontology/saref.ttl and pushing it to fuseki server to extract keywords
+52:42,832 AWT-EventQueue-0 ERROR fr.lahc.enrichontologies.Initialize:56 - 405 - HTTP method PUT is not supported by this URL
+55:18,139 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.Initialize:35 - Initilizing ontology /data/saref-core/ontology/saref.ttl and pushing it to fuseki server to extract keywords
+55:18,343 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.Initialize:49 - In write transaction
+55:18,346 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.Initialize:52 - Writing finished ...
