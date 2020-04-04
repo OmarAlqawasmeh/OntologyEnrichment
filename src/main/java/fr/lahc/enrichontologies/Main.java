@@ -10,8 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,14 +29,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.IOUtils;
+import org.apache.jena.atlas.io.IndentedWriter;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.sparql.engine.binding.Binding;
+import org.apache.jena.sparql.engine.binding.BindingHashMap;
+import org.apache.jena.sparql.util.Context;
 import org.apache.log4j.Layout;
 import org.apache.log4j.PatternLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import fr.lahc.outputFormatter.TestCase;
+import fr.lahc.outputFormatter.TestSuite;
+
 
 /**
  * 
@@ -62,7 +79,17 @@ public class Main {
 	static boolean includeRelations;
 	static boolean includeInstances;
 	public static boolean isTheConsoleActive = false;
+	
+	
+	private static TestCase getClasses = new TestCase(); 
+	private static TestCase getRelations = new TestCase();
+	private static TestCase getInstances = new TestCase();
+	
+	private static TestCase tstcase = new TestCase();
+	
+	private static TestSuite ts = new TestSuite();
 
+	
 	public static void main(String[] args) throws IOException, ParseException {
 
 		if (isTheConsoleActive == true) {
@@ -88,10 +115,20 @@ public class Main {
 			
 			
 			if(includeClasses) {
-				EnrichOntologies obj= new EnrichOntologies();
-				System.out.println(obj.toTitleCase("hello from the other side"));
+				AskDBpedia obj= new AskDBpedia();
+				obj.askDbpedia(obj.toTitleCase("wine"),tstcase);
+				
+			
 			}
 
+			
+			
+			
+			
+			
+			ts.setTestcase(new TestCase[] { tstcase, getRelations, getInstances });
+			TestSuite.jaxbObjectToXML(ts);
+			
 		}
 
 	}
@@ -119,6 +156,15 @@ public class Main {
 
 	}
 
+	
+	private static void reportAndExit(int code) {
+		
+		
+		
+		
+		
+		
+	}
 	private static boolean openConsole() throws IOException {
 		setGUIAppenders();
 		setLogAppenders();

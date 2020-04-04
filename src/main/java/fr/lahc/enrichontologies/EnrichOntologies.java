@@ -13,6 +13,8 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 
+import fr.lahc.outputFormatter.TestCase;
+
 /**
  * 
  */
@@ -33,95 +35,97 @@ public class EnrichOntologies {
 //
 //	}
 
-	public static String toTitleCase(String givenString) {
-
-		String output = givenString.substring(0, 1).toUpperCase() + givenString.substring(1);
-
-		return output;
-
-	}
-
-	public static void askDbpedia(String cat) {
-		/*
-		 * prefix x: <dbpedia.org/ontology/> prefix rdf:
-		 * <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs:
-		 * <http://www.w3.org/2000/01/rdf-schema#> PREFIX dbpedia-owl:
-		 * <http://dbpedia.org/ontology/>
-		 * 
-		 * SELECT ?uri ?label ?abstract ?type WHERE {
-		 * 
-		 * ?uri rdfs:label ?label .
-		 * 
-		 * ?uri dbpedia-owl:abstract ?abstract .
-		 * 
-		 * ?uri rdf:type ?type .
-		 * 
-		 * filter(?label="Wine"@en) .
-		 * 
-		 * FILTER langMatches( lang(?abstract), 'en') }
-		 */
-		String x = cat;
-
-		QueryExecution qe = null;
-		String service = "http://dbpedia.org/sparql";
-
-		String Sparql_query =
-
-				"prefix dbpediaont: <http://dbpedia.org/>\n" + "prefix x: <dbpedia.org/ontology/>"
-						+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-						+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-
-						+ "SELECT ?uri ?label ?abstract ?type ?sub " + "WHERE { " + "?uri rdfs:label ?label  ."
-						+ "?uri dbpedia-owl:abstract ?abstract ." + "?uri rdf:type ?type ." + "filter(?label=\"" + x
-						+ "\"@en) ." + "FILTER langMatches( lang(?abstract), 'en') " + "}";
-
-		ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-		Query q = QueryFactory.create(query.toString());
-		qe = QueryExecutionFactory.sparqlService(service, q);
-		int k = 0;
-		ResultSet results = qe.execSelect();
-		int counter = 0;
-		String DBlabel = null;
-		String DBabs = null;
-		String DBuri = null;
-		String DBtype = null;
-		String FinalOutDBpedia = null;
-		if (results.hasNext()) {
-			for (; results.hasNext();) {
-				counter++;
-				QuerySolution sol = (QuerySolution) results.next();
-
-				RDFNode lbl = sol.get("?label");
-				RDFNode abs = sol.get("?abstract");
-				RDFNode uri = sol.get("?uri");
-				RDFNode type = sol.get("?type");
-				RDFNode subClassOf = sol.get("?sub");
-
-				DBlabel = lbl.toString();
-				DBabs = abs.toString();
-				DBuri = uri.toString();
-				DBtype = type.toString();
-
-			}
-
-		}
-
-		else {
-
-			DBlabel = "No output";
-			DBabs = "No output";
-			DBuri = "No output";
-			DBtype = "No output";
-			DBResults = "NoOutput";
-			String ResultChecker = "NO";
-
-		}
-		FinalOutDBpedia = FinalOutDBpedia + "<label>" + DBlabel + "</label>" + "\n" + "<abstract>" + DBabs
-				+ "</abstract>" + "\n" + "<type>" + DBtype + "</type>\n";
-
-		System.out.println(FinalOutDBpedia);
-	}
+//	public static String toTitleCase(String givenString, TestCase ts) {
+//
+//		String output = givenString.substring(0, 1).toUpperCase() + givenString.substring(1);
+//		
+//		ts.setSystemOut(output);
+//
+//		return output;
+//
+//	}
+//
+//	public static void askDbpedia(String cat) {
+//		/*
+//		 * prefix x: <dbpedia.org/ontology/> prefix rdf:
+//		 * <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs:
+//		 * <http://www.w3.org/2000/01/rdf-schema#> PREFIX dbpedia-owl:
+//		 * <http://dbpedia.org/ontology/>
+//		 * 
+//		 * SELECT ?uri ?label ?abstract ?type WHERE {
+//		 * 
+//		 * ?uri rdfs:label ?label .
+//		 * 
+//		 * ?uri dbpedia-owl:abstract ?abstract .
+//		 * 
+//		 * ?uri rdf:type ?type .
+//		 * 
+//		 * filter(?label="Wine"@en) .
+//		 * 
+//		 * FILTER langMatches( lang(?abstract), 'en') }
+//		 */
+//		String x = cat;
+//
+//		QueryExecution qe = null;
+//		String service = "http://dbpedia.org/sparql";
+//
+//		String Sparql_query =
+//
+//				"prefix dbpediaont: <http://dbpedia.org/>\n" + "prefix x: <dbpedia.org/ontology/>"
+//						+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+//						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
+//						+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
+//
+//						+ "SELECT ?uri ?label ?abstract ?type ?sub " + "WHERE { " + "?uri rdfs:label ?label  ."
+//						+ "?uri dbpedia-owl:abstract ?abstract ." + "?uri rdf:type ?type ." + "filter(?label=\"" + x
+//						+ "\"@en) ." + "FILTER langMatches( lang(?abstract), 'en') " + "}";
+//
+//		ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
+//		Query q = QueryFactory.create(query.toString());
+//		qe = QueryExecutionFactory.sparqlService(service, q);
+//		int k = 0;
+//		ResultSet results = qe.execSelect();
+//		int counter = 0;
+//		String DBlabel = null;
+//		String DBabs = null;
+//		String DBuri = null;
+//		String DBtype = null;
+//		String FinalOutDBpedia = null;
+//		if (results.hasNext()) {
+//			for (; results.hasNext();) {
+//				counter++;
+//				QuerySolution sol = (QuerySolution) results.next();
+//
+//				RDFNode lbl = sol.get("?label");
+//				RDFNode abs = sol.get("?abstract");
+//				RDFNode uri = sol.get("?uri");
+//				RDFNode type = sol.get("?type");
+//				RDFNode subClassOf = sol.get("?sub");
+//
+//				DBlabel = lbl.toString();
+//				DBabs = abs.toString();
+//				DBuri = uri.toString();
+//				DBtype = type.toString();
+//
+//			}
+//
+//		}
+//
+//		else {
+//
+//			DBlabel = "No output";
+//			DBabs = "No output";
+//			DBuri = "No output";
+//			DBtype = "No output";
+//			DBResults = "NoOutput";
+//			String ResultChecker = "NO";
+//
+//		}
+//		FinalOutDBpedia = FinalOutDBpedia + "<label>" + DBlabel + "</label>" + "\n" + "<abstract>" + DBabs
+//				+ "</abstract>" + "\n" + "<type>" + DBtype + "</type>\n";
+//
+//		System.out.println(FinalOutDBpedia);
+//	}
 
 	public static void askWikidata(String entity) {
 		boolean flag = true;
