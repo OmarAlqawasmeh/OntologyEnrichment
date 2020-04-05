@@ -23,13 +23,16 @@ import org.slf4j.LoggerFactory;
  *
  * 
  */
-public class Initialize {
-	static final Logger LOG = LoggerFactory.getLogger(Initialize.class);
+public class GetKeywords {
+	static final Logger LOG = LoggerFactory.getLogger(GetKeywords.class);
 
 	private static final String DS = "http://localhost:3030/ds1/";
 	private static final Model config = ModelFactory.createDefaultModel();
 	private RDFConnection conn = RDFConnectionFactory.connect(DS);
 
+	public void askLucene() {
+		LOG.info("to be implemnted...");
+	}
 	public void pushOntology(String ontologyurl) throws FileNotFoundException {
 
 		LOG.info("Initilizing ontology " + ontologyurl + " and pushing it to fuseki server to extract keywords");

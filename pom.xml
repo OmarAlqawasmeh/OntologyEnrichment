@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.emse.OntologyEnrichment</groupId>
-  <artifactId>OntologyEnrichment</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>OntologyEnrichment</name>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.emse.OntologyEnrichment</groupId>
+	<artifactId>OntologyEnrichment</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>OntologyEnrichment</name>
+
 	<developers>
 		<developer>
 			<name>Omar Qawasmeh</name>
@@ -36,7 +38,7 @@
 	</properties>
 
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/org.eclipse.swt/org.eclipse.swt.gtk.linux.x86_64 -->
+		<!-- https://mvnrepository.com/artifact/org.eclipse.swt/org.eclipse.swt.gtk.linux.x86_64 -->
 		<dependency>
 			<groupId>org.eclipse.swt</groupId>
 			<artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
@@ -54,6 +56,19 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.25</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-tdb</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.rdf4j/rdf4j-repository-sparql -->
+		<dependency>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-repository-sparql</artifactId>
+			<version>3.2.0-M1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>apache-jena-libs</artifactId>
@@ -62,7 +77,7 @@
 		</dependency>
 		<!-- <dependency> <groupId>fr.emse.ci</groupId> <artifactId>sparql-generate-all</artifactId> 
 			<version>${sparql-generate.version}</version> </dependency> -->
-		
+
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
@@ -102,52 +117,43 @@
 			<version>9.4.14.v20181114</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.jena</groupId>
-			<artifactId>jena-text</artifactId>
-			<version>${jena.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.jena</groupId>
-			<artifactId>jena-arq</artifactId>
-			<version>${jena.version}</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>1.13.1</version>
 		</dependency>
-		
-<dependency>
-		<groupId>org.glassfish.jersey.core</groupId>
-		<artifactId>jersey-client</artifactId>
-		<version>2.26</version>
-	</dependency>
 
-	<dependency>
-		<groupId>org.glassfish.jersey.core</groupId>
-		<artifactId>jersey-common</artifactId>
-		<version>2.26</version>
-	</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.26</version>
+		</dependency>
 
-	<dependency>
-		<groupId>org.glassfish.jersey.media</groupId>
-		<artifactId>jersey-media-json-jackson</artifactId>
-		<version>2.26</version>
-	</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+			<version>2.26</version>
+		</dependency>
 
-	<dependency>
-		<groupId>org.glassfish.jersey.inject</groupId>
-		<artifactId>jersey-hk2</artifactId>
-		<version>2.26</version>
-	</dependency>
-	<dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.2</version>
-            <type>jar</type>
-        </dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>2.26</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>2.26</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
+			<type>jar</type>
+		</dependency>
 	</dependencies>
 
 

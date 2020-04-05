@@ -127,119 +127,119 @@ public class EnrichOntologies {
 //		System.out.println(FinalOutDBpedia);
 //	}
 
-	public static void askWikidata(String entity) {
-		boolean flag = true;
-		String wikiDataResults = "null,";
-		String ResultChecker = null;
-		String FinalWikidataResults = null;
-		if (entity != "null") {
-
-			String x = entity;
-
-			RDFNode lbl = null;
-			RDFNode lbl2 = null;
-			QueryExecution qe = null;
-			String service = "https://query.wikidata.org/sparql";
-			String Sparql_query =
-					// Modify the query
-					"prefix dbpediaont: <http://dbpedia.org/>\n"
-							+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-							+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-							+ "PREFIX wd: <http://www.wikidata.org/entity/> "
-							+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-							+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-
-							+ "SELECT ?s ?desc WHERE " + "{ ?s wdt:P279 wd:" + x + ". OPTIONAL" + " {"
-							+ " ?s rdfs:label " + "?desc filter (lang(?desc) = \"en\") ." + " }" + " }";
-
-			try {
-
-				ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-				Query q = QueryFactory.create(query.toString());
-				qe = QueryExecutionFactory.sparqlService(service, q);
-				int k = 0;
-				ResultSet results = qe.execSelect();
-				int counter = 0;
-				if (results.hasNext()) {
-					for (; results.hasNext();) {
-						counter++;
-						QuerySolution sol = (QuerySolution) results.next();
-						lbl = sol.get("?s");
-						lbl2 = sol.get("?desc");
-						wikiDataResults = wikiDataResults + lbl2.toString().replaceAll("@en", "") + ",";
-						if (lbl2.toString() == null) {
-							wikiDataResults = "No output";
-						}
-					}
-				} else {
-					ResultChecker = "NO";
-				}
-
-			} catch (Exception e) {
-
-			} finally {
-				lbl = null;
-				lbl2 = null;
-				flag = true;
-			}
-		}
-
-		String wikiOutput[] = wikiDataResults.split(",");
-		for (int i = 1; i < wikiOutput.length; i++) {
-			FinalWikidataResults = FinalWikidataResults + "<wikidata>" + wikiOutput[i] + "</wikidata>" + "\n";
-		}
-		System.out.println(FinalWikidataResults);
-	}
-
-	public static String getWikidataID(String Category) {
-
-		String x = Category;
-		RDFNode lbl = null;
-		String ID = null;
-
-		QueryExecution qe = null;
-
-		String service = "https://query.wikidata.org/sparql";
-
-		String Sparql_query =
-
-				"prefix dbpediaont: <http://dbpedia.org/>\n" + "prefix x: <dbpedia.org/ontology/>"
-						+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-						+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-						+ "PREFIX wd: <http://www.wikidata.org/entity/>"
-						+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-
-						+ "SELECT ?item WHERE { ?item rdfs:label \"" + x + "\"@en}";
-
-		try {
-			ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-
-			Query q = QueryFactory.create(query.toString());
-
-			qe = QueryExecutionFactory.sparqlService(service, q);
-
-			int k = 0;
-			ResultSet results = qe.execSelect();
-			int counter = 0;
-			for (; results.hasNext();) {
-				counter++;
-				QuerySolution sol = (QuerySolution) results.next();
-				lbl = sol.get("?item");
-				break;
-			}
-
-			ID = lbl.toString().replaceAll("http://www.wikidata.org/entity/", "");
-
-		}
-
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		return ID;
-
-	}
+//	public static void askWikidata(String entity) {
+//		boolean flag = true;
+//		String wikiDataResults = "null,";
+//		String ResultChecker = null;
+//		String FinalWikidataResults = null;
+//		if (entity != "null") {
+//
+//			String x = entity;
+//
+//			RDFNode lbl = null;
+//			RDFNode lbl2 = null;
+//			QueryExecution qe = null;
+//			String service = "https://query.wikidata.org/sparql";
+//			String Sparql_query =
+//					// Modify the query
+//					"prefix dbpediaont: <http://dbpedia.org/>\n"
+//							+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+//							+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
+//							+ "PREFIX wd: <http://www.wikidata.org/entity/> "
+//							+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
+//							+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
+//
+//							+ "SELECT ?s ?desc WHERE " + "{ ?s wdt:P279 wd:" + x + ". OPTIONAL" + " {"
+//							+ " ?s rdfs:label " + "?desc filter (lang(?desc) = \"en\") ." + " }" + " }";
+//
+//			try {
+//
+//				ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
+//				Query q = QueryFactory.create(query.toString());
+//				qe = QueryExecutionFactory.sparqlService(service, q);
+//				int k = 0;
+//				ResultSet results = qe.execSelect();
+//				int counter = 0;
+//				if (results.hasNext()) {
+//					for (; results.hasNext();) {
+//						counter++;
+//						QuerySolution sol = (QuerySolution) results.next();
+//						lbl = sol.get("?s");
+//						lbl2 = sol.get("?desc");
+//						wikiDataResults = wikiDataResults + lbl2.toString().replaceAll("@en", "") + ",";
+//						if (lbl2.toString() == null) {
+//							wikiDataResults = "No output";
+//						}
+//					}
+//				} else {
+//					ResultChecker = "NO";
+//				}
+//
+//			} catch (Exception e) {
+//
+//			} finally {
+//				lbl = null;
+//				lbl2 = null;
+//				flag = true;
+//			}
+//		}
+//
+//		String wikiOutput[] = wikiDataResults.split(",");
+//		for (int i = 1; i < wikiOutput.length; i++) {
+//			FinalWikidataResults = FinalWikidataResults + "<wikidata>" + wikiOutput[i] + "</wikidata>" + "\n";
+//		}
+//		System.out.println(FinalWikidataResults);
+//	}
+//
+//	public static String getWikidataID(String Category) {
+//
+//		String x = Category;
+//		RDFNode lbl = null;
+//		String ID = null;
+//
+//		QueryExecution qe = null;
+//
+//		String service = "https://query.wikidata.org/sparql";
+//
+//		String Sparql_query =
+//
+//				"prefix dbpediaont: <http://dbpedia.org/>\n" + "prefix x: <dbpedia.org/ontology/>"
+//						+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+//						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
+//						+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
+//						+ "PREFIX wd: <http://www.wikidata.org/entity/>"
+//						+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
+//
+//						+ "SELECT ?item WHERE { ?item rdfs:label \"" + x + "\"@en}";
+//
+//		try {
+//			ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
+//
+//			Query q = QueryFactory.create(query.toString());
+//
+//			qe = QueryExecutionFactory.sparqlService(service, q);
+//
+//			int k = 0;
+//			ResultSet results = qe.execSelect();
+//			int counter = 0;
+//			for (; results.hasNext();) {
+//				counter++;
+//				QuerySolution sol = (QuerySolution) results.next();
+//				lbl = sol.get("?item");
+//				break;
+//			}
+//
+//			ID = lbl.toString().replaceAll("http://www.wikidata.org/entity/", "");
+//
+//		}
+//
+//		catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//
+//		return ID;
+//
+//	}
 
 	public static void getIndividuals(String entity) throws IOException {
 		

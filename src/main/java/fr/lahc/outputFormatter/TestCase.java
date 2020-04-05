@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlRootElement(name = "keyword")
-@XmlType(propOrder = { "systemErr", "systemOut", "info","classes","relations","instances","kwAbstract","kwLabel","kwType"})
+@XmlType(propOrder = { "systemErr", "systemOut", "info","kwAbstract","classes","relations","instances","kwLabel","kwType"})
 public class TestCase {
 
 	private String name;

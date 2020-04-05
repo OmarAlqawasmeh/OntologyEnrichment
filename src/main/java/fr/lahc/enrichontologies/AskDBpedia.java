@@ -35,7 +35,7 @@ public class AskDBpedia {
 	}
 
 	public void askDbpedia(String kw, TestCase ts) {
-		LOG.info("Extracting general information for the keyword\t \"" + kw+"\"");
+		LOG.info("Extracting general information for the keyword\t \"" + kw + "\"");
 
 		/*
 		 * prefix x: <dbpedia.org/ontology/> prefix rdf:
@@ -76,7 +76,7 @@ public class AskDBpedia {
 		int k = 0;
 		ResultSet results = qe.execSelect();
 		int counter = 0;
-	
+
 		if (results.hasNext()) {
 			for (; results.hasNext();) {
 				counter++;
@@ -92,7 +92,6 @@ public class AskDBpedia {
 				ts.setKwType(type.toString());
 				ts.setKwAbstract(abs.toString());
 
-
 			}
 
 		}
@@ -102,19 +101,18 @@ public class AskDBpedia {
 			ts.setKwLabel("null");
 			ts.setKwType("null");
 			ts.setKwAbstract("null");
-
-			List<String> listStrings = new ArrayList<String>();
-			listStrings.add("One");
-			listStrings.add("Two");
-			listStrings.add("Three");
-			listStrings.add("Four");
-			System.out.println(listStrings);
-			ts.setClasses(listStrings);
-
+//
+//			List<String> listStrings = new ArrayList<String>();
+//			listStrings.add("One");
+//			listStrings.add("Two");
+//			listStrings.add("Three");
+//			listStrings.add("Four");
+//			System.out.println(listStrings);
+//			ts.setClasses(listStrings);
 
 		}
-LOG.info("Finish extracting general information for the keyword\t \"" + kw+"\"");
-	
+		LOG.info("Finish extracting general information for the keyword\t \"" + kw + "\"");
+
 	}
 
 }

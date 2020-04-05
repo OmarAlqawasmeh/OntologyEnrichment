@@ -73,7 +73,8 @@ public class Main {
 	private static JFileChooser fileChooser;
 	private static File directory;
 	public static final String LOG_FILE_NAME = directory + File.separator + "output.log";
-	private static Initialize pushOntology = new Initialize();
+
+	private static GetKeywords pushOntology = new GetKeywords();
 	static boolean initOntology;
 	static boolean includeClasses;
 	static boolean includeRelations;
@@ -113,15 +114,26 @@ public class Main {
 			LOG.info(directory.getAbsolutePath());
 			pushOntology.pushOntology(directory.getAbsolutePath());
 			
+			AskDBpedia obj= new AskDBpedia();
+			obj.askDbpedia(obj.toTitleCase("wine"),tstcase);
 			
 			if(includeClasses) {
-				AskDBpedia obj= new AskDBpedia();
-				obj.askDbpedia(obj.toTitleCase("wine"),tstcase);
 				
+			AskWikidata obj2 = new AskWikidata();
+			obj2.askWikidataForClasses(obj2.getWikidataID("wine"),tstcase);
 			
 			}
-
 			
+			if(includeRelations) {
+				
+				AskWikidata obj3 = new AskWikidata();
+				obj3.getProp(obj3.getWikidataID("wine"),tstcase);
+			}
+
+			if(includeInstances) {
+				
+				
+			}
 			
 			
 			
