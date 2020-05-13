@@ -35,7 +35,7 @@ public class AskWikidata {
 
 	public void askWikidataForClasses(String entity, TestCase tstcase) {
 
-//		LOG.info("preparing list of suggested classes for the keyword \t" + entity);
+		LOG.info("preparing list of suggested classes for the keyword \t" + entity);
 //
 //		List<String> listofClasses = new ArrayList<String>();
 //		String lbl2 =null;

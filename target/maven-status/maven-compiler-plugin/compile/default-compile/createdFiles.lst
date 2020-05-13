@@ -11,5 +11,4 @@ fr/lahc/enrichontologies/Main$1.class
 fr/lahc/outputFormatter/Property.class
 EnrichOntologies.class
 fr/lahc/enrichontologies/GetKeywords.class
-fr/lahc/enrichontologies/RetrieveKeywords.class
 fr/lahc/enrichontologies/JTextAreaAppender.class

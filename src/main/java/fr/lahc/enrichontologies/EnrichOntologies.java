@@ -322,50 +322,50 @@ System.out.println(candidateEntityFromNELL);
 	}
 	
 	
-	public static String getLabelFromID(String entity) {
-		String ID = entity.replaceAll("/entity/", "");
-
-		RDFNode label = null;
-
-		QueryExecution qe = null;
-
-		String service = "https://query.wikidata.org/sparql";
-
-		String Sparql_query = "prefix dbpediaont: <http://dbpedia.org/>\n"
-				+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-				+ "PREFIX wd: <http://www.wikidata.org/entity/>" + "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-				+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-				+ "PREFIX wikibase: <http://wikiba.se/ontology#>" + "SELECT ?label WHERE { " + " wd:" + ID
-				+ " rdfs:label ?label .  FILTER (langMatches( lang(?label), \"en\" ) ) }";
-
-		try {
-
-			ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-
-			Query q = QueryFactory.create(query.toString());
-
-			qe = QueryExecutionFactory.sparqlService(service, q);
-
-			int k = 0;
-			ResultSet results = qe.execSelect();
-			int counter = 0;
-			for (; results.hasNext();) {
-				counter++;
-				QuerySolution sol = (QuerySolution) results.next();
-				label = sol.get("?label");
-				break;
-
-			}
-
-		}
-
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		return label.toString();
-	}
+//	public static String getLabelFromID(String entity) {
+//		String ID = entity.replaceAll("/entity/", "");
+//
+//		RDFNode label = null;
+//
+//		QueryExecution qe = null;
+//
+//		String service = "https://query.wikidata.org/sparql";
+//
+//		String Sparql_query = "prefix dbpediaont: <http://dbpedia.org/>\n"
+//				+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+//				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
+//				+ "PREFIX wd: <http://www.wikidata.org/entity/>" + "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
+//				+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
+//				+ "PREFIX wikibase: <http://wikiba.se/ontology#>" + "SELECT ?label WHERE { " + " wd:" + ID
+//				+ " rdfs:label ?label .  FILTER (langMatches( lang(?label), \"en\" ) ) }";
+//
+//		try {
+//
+//			ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
+//
+//			Query q = QueryFactory.create(query.toString());
+//
+//			qe = QueryExecutionFactory.sparqlService(service, q);
+//
+//			int k = 0;
+//			ResultSet results = qe.execSelect();
+//			int counter = 0;
+//			for (; results.hasNext();) {
+//				counter++;
+//				QuerySolution sol = (QuerySolution) results.next();
+//				label = sol.get("?label");
+//				break;
+//
+//			}
+//
+//		}
+//
+//		catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//
+//		return label.toString();
+//	}
 
 //	public static void getCountForProperty(String entity) {
 //

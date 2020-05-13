@@ -77,7 +77,11 @@
 		</dependency>
 		<!-- <dependency> <groupId>fr.emse.ci</groupId> <artifactId>sparql-generate-all</artifactId> 
 			<version>${sparql-generate.version}</version> </dependency> -->
-
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-text</artifactId>
+			<version>${jena.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>

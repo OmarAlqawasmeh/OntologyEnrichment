@@ -49,7 +49,6 @@ import org.slf4j.LoggerFactory;
 import fr.lahc.outputFormatter.TestCase;
 import fr.lahc.outputFormatter.TestSuite;
 
-
 /**
  * 
  */
@@ -74,25 +73,24 @@ public class Main {
 	private static File directory;
 	public static final String LOG_FILE_NAME = directory + File.separator + "output.log";
 
-	private static GetKeywords pushOntology = new GetKeywords();
+	private static GetKeywords candidateKeywords = new GetKeywords();
 	static boolean initOntology;
 	static boolean includeClasses;
 	static boolean includeRelations;
 	static boolean includeInstances;
 	public static boolean isTheConsoleActive = false;
-	
-	
-	private static TestCase getClasses = new TestCase(); 
-	private static TestCase getRelations = new TestCase();
-	private static TestCase getInstances = new TestCase();
-	
+	static String kw;
+
+//	private static TestCase getClasses = new TestCase(); 
+//	private static TestCase getRelations = new TestCase();
+//	private static TestCase getInstances = new TestCase();
+
 	private static TestCase tstcase = new TestCase();
-	
+
 	private static TestSuite ts = new TestSuite();
 
-	
 	public static void main(String[] args) throws IOException, ParseException {
-
+		
 		if (isTheConsoleActive == true) {
 			openConsole();
 
@@ -111,36 +109,57 @@ public class Main {
 
 			String dirName = cl.getOptionValue(ARG_PUSH);
 			directory = new File(dirName).getCanonicalFile();
+
 			LOG.info(directory.getAbsolutePath());
-			pushOntology.pushOntology(directory.getAbsolutePath());
-			
-			AskDBpedia obj= new AskDBpedia();
-			obj.askDbpedia(obj.toTitleCase("wine"),tstcase);
-			
-			if(includeClasses) {
-				
-			AskWikidata obj2 = new AskWikidata();
-			obj2.askWikidataForClasses(obj2.getWikidataID("wine"),tstcase);
-			
-			}
-			
-			if(includeRelations) {
-				
-				AskWikidata obj3 = new AskWikidata();
-				obj3.getProp(obj3.getWikidataID("wine"),tstcase);
+
+			if (!initOntology) {
+				LOG.info("Please enter an ontology to start");
+				System.exit(0);
 			}
 
-			if(includeInstances) {
-				
-				
+			else {
+
+				// candidateKeywords.candidateKeywords(directory.getAbsolutePath());
+
+				LOG.info("OMAR \t\t" + directory.getAbsolutePath());
+
+				kw = candidateKeywords.askLuceneforKeyword(directory.getAbsolutePath());
+
+				LOG.info("Retrieved keyword is:\t\t" + kw);
+
+				AskDBpedia obj = new AskDBpedia();
+				obj.askDbpedia(obj.toTitleCase(kw), tstcase);
+
 			}
-			
-			
-			
-			
-			ts.setTestcase(new TestCase[] { tstcase, getRelations, getInstances });
+			// to include classes
+			if (includeClasses) {
+
+				AskWikidata obj2 = new AskWikidata();
+				obj2.askWikidataForClasses(obj2.getWikidataID(kw), tstcase);
+
+			}
+
+			// to include relations
+			if (includeRelations) {
+
+				AskWikidata obj3 = new AskWikidata();
+				obj3.getProp(obj3.getWikidataID(kw), tstcase);
+			}
+
+			// to include instances
+			if (includeInstances) {
+				AskNell obj4 = new AskNell();
+				try {
+					obj4.getIndividuals(kw, tstcase);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			ts.setTestcase(new TestCase[] { tstcase });
 			TestSuite.jaxbObjectToXML(ts);
-			
+
 		}
 
 	}
@@ -168,15 +187,6 @@ public class Main {
 
 	}
 
-	
-	private static void reportAndExit(int code) {
-		
-		
-		
-		
-		
-		
-	}
 	private static boolean openConsole() throws IOException {
 		setGUIAppenders();
 		setLogAppenders();
@@ -191,6 +201,12 @@ public class Main {
 		infoPanel.add(lblWelcomeToSarefpipeline);
 
 		frame.getContentPane().add(functionalitiesPanel, BorderLayout.SOUTH);
+
+		JCheckBox classes_checkBox = new JCheckBox("Suggest new classes to add");
+
+		JCheckBox relation_checkBox = new JCheckBox("Suggest new relations to add");
+
+		JCheckBox instanses_checkBox = new JCheckBox("Suggest new instanses to add");
 
 		JButton startBtn = new JButton("Start the process");
 
@@ -213,12 +229,12 @@ public class Main {
 
 					directory = fileChooser.getSelectedFile();
 
-					try {
-						pushOntology.pushOntology(directory.getAbsolutePath());
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						LOG.error(e.getMessage());
-					}
+//					try {
+//						candidateKeywords.candidateKeywords(directory.getAbsolutePath());
+//					} catch (FileNotFoundException e) {
+//						// TODO Auto-generated catch block
+//						LOG.error(e.getMessage());
+//					}
 
 					fileSelected = true;
 					startBtn.setEnabled(true);
@@ -241,6 +257,41 @@ public class Main {
 		startBtn.setEnabled(false);
 		startBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
+				includeClasses = classes_checkBox.isSelected();
+				includeRelations = relation_checkBox.isSelected();
+				includeInstances = instanses_checkBox.isSelected();
+				LOG.info(includeClasses + "\t" + includeRelations + "\t" + includeInstances);
+
+				AskDBpedia obj = new AskDBpedia();
+				obj.askDbpedia(obj.toTitleCase("wine"), tstcase);
+
+				if (includeClasses) {
+
+					AskWikidata obj2 = new AskWikidata();
+					obj2.askWikidataForClasses(obj2.getWikidataID("wine"), tstcase);
+
+				}
+
+				if (includeRelations) {
+
+					AskWikidata obj3 = new AskWikidata();
+					obj3.getProp(obj3.getWikidataID("wine"), tstcase);
+				}
+
+				if (includeInstances) {
+
+					AskNell obj4 = new AskNell();
+					try {
+						obj4.getIndividuals("wine", tstcase);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				ts.setTestcase(new TestCase[] { tstcase });
+				TestSuite.jaxbObjectToXML(ts);
 
 			}
 		});
@@ -269,18 +320,18 @@ public class Main {
 //		ignoreGit_checkBox.setSelected(true);
 //		functionalitiesPanel.add(ignoreGit_checkBox);
 
-		JCheckBox classes_checkBox = new JCheckBox("Suggest new classes to add");
+//		JCheckBox classes_checkBox = new JCheckBox("Suggest new classes to add");
 		classes_checkBox.setToolTipText("Do not check the directory itself.\n"
 				+ " Only consider the repositories listed in the `.saref-repositories.yml` document.\n"
 				+ " Used to generate the website for several extensions.");
 		functionalitiesPanel.add(classes_checkBox);
 
-		JCheckBox relation_checkBox = new JCheckBox("Suggest new relations to add");
+//		JCheckBox relation_checkBox = new JCheckBox("Suggest new relations to add");
 		relation_checkBox.setToolTipText(
 				"Check the master branches of the remote repositories listed in the `.saref-repositories.yml` document");
 		functionalitiesPanel.add(relation_checkBox);
 
-		JCheckBox instanses_checkBox = new JCheckBox("Suggest new instanses to add");
+//		JCheckBox instanses_checkBox = new JCheckBox("Suggest new instanses to add");
 		instanses_checkBox.setToolTipText("Do not generate the static website");
 		functionalitiesPanel.add(instanses_checkBox);
 
