@@ -36,33 +36,6 @@ public class AskWikidata {
 	public void askWikidataForClasses(String entity, TestCase tstcase) {
 
 		LOG.info("preparing list of suggested classes for the keyword \t" + entity);
-//
-//		List<String> listofClasses = new ArrayList<String>();
-//		String lbl2 =null;
-//		String Sparql_query =
-//				// Modify the query
-//				"prefix dbpediaont: <http://dbpedia.org/>\n"
-//						+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-//						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-//						+ "PREFIX wd: <http://www.wikidata.org/entity/> "
-//						+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-//						+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-//
-//						+ "SELECT ?s ?desc WHERE " + "{ ?s wdt:P279 wd:" + entity + ". OPTIONAL" + " {"
-//						+ " ?s rdfs:label " + "?desc filter (lang(?desc) = \"en\") ." + " }" + " }";
-//
-//		QueryExecution qExe = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", Sparql_query);
-//		ResultSet result = qExe.execSelect();
-//		while (result.hasNext()) {
-//			QuerySolution s = result.next();
-//			lbl2 = s.get("?desc").toString();		
-//			listofClasses.add(lbl2.toString());
-//			}
-//		qExe.close();
-//
-//		LOG.info("Printing list of suggested classes");
-//
-//		tstcase.setClasses(listofClasses);
 
 		boolean flag = true;
 		String wikiDataResults = "null,";
@@ -155,58 +128,11 @@ public class AskWikidata {
 		while (result.hasNext()) {
 			QuerySolution s = result.next();
 			lbl = s.get("?item").toString();
-			LOG.info(s.get("?item").toString()+" omar omar omar");
 			break;
 		}
 		qExe.close();
 
 		return lbl.toString().replaceAll("http://www.wikidata.org/entity/", "");
-
-//		String x = Category;
-//		RDFNode lbl = null;
-//		String ID = null;
-//
-//		QueryExecution qe = null;
-//
-//		String service = "https://query.wikidata.org/sparql";
-//
-//		String Sparql_query =
-//
-//				"prefix dbpediaont: <http://dbpedia.org/>\n" + "prefix x: <dbpedia.org/ontology/>"
-//						+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-//						+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-//						+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-//						+ "PREFIX wd: <http://www.wikidata.org/entity/>"
-//						+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-//
-//						+ "SELECT ?item WHERE { ?item rdfs:label \"" + x + "\"@en}";
-//
-//		try {
-//			ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-//
-//			Query q = QueryFactory.create(query.toString());
-//
-//			qe = QueryExecutionFactory.sparqlService(service, q);
-//
-//			int k = 0;
-//			ResultSet results = qe.execSelect();
-//			int counter = 0;
-//			for (; results.hasNext();) {
-//				counter++;
-//				QuerySolution sol = (QuerySolution) results.next();
-//				lbl = sol.get("?item");
-//				break;
-//			}
-//
-//			ID = lbl.toString().replaceAll("http://www.wikidata.org/entity/", "");
-//
-//		}
-//
-//		catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//
-//		return ID;
 
 	}
 
@@ -231,48 +157,6 @@ public class AskWikidata {
 
 		return lbl;
 
-//		String ID = entity.replaceAll("http://www.wikidata.org/entity/", "");
-//
-//		RDFNode label = null;
-//
-//		QueryExecution qe = null;
-//
-//		String service = "https://query.wikidata.org/sparql";
-//
-//		String Sparql_query = "prefix dbpediaont: <http://dbpedia.org/>\n"
-//				+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-//				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-//				+ "PREFIX wd: <http://www.wikidata.org/entity/>" + "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-//				+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-//				+ "PREFIX wikibase: <http://wikiba.se/ontology#>" + "SELECT ?label WHERE { " + " wd:" + ID
-//				+ " rdfs:label ?label .  FILTER (langMatches( lang(?label), \"en\" ) ) }";
-//
-//		try {
-//
-//			ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-//
-//			Query q = QueryFactory.create(query.toString());
-//
-//			qe = QueryExecutionFactory.sparqlService(service, q);
-//
-//			int k = 0;
-//			ResultSet results = qe.execSelect();
-//			int counter = 0;
-//			for (; results.hasNext();) {
-//				counter++;
-//				QuerySolution sol = (QuerySolution) results.next();
-//				label = sol.get("?label");
-//				break;
-//
-//			}
-//
-//		}
-//
-//		catch (Exception e) {
-//			// TODO: handle exception
-//		}
-
-//		return label.toString();
 	}
 
 	public void getProp(String kw, TestCase tstcase) {
@@ -298,103 +182,10 @@ public class AskWikidata {
 			QuerySolution s = result.next();
 			s.get("?property").toString();
 
-			LOG.info(getLabelFromID(s.get("?property").toString()));
 			listofProp.add(getLabelFromID(s.get("?property").toString()));
 		}
 		qExe.close();
 		tstcase.setRelations(listofProp);
 
 	}
-//	public void getProperties(String entity, TestCase tstcase) {
-//		/*
-//		 * SELECT ?property ?count WHERE { SELECT ?property (COUNT(?item) AS ?count)
-//		 * WHERE { ?item ?statement wd:Q282. ?property wikibase:statementProperty
-//		 * ?statement . } GROUP BY ?property } ORDER BY DESC(?count)
-//		 */
-//		LOG.info("Getting properities for the keyword \t" + entity);
-//		List<String> listofProp = new ArrayList<String>();
-//
-//		String wikiDataResultsForRelations = null;
-//		if (entity != "null") {
-//
-//			String x = entity;
-//			RDFNode property = null;
-//			RDFNode propCount = null;
-//			QueryExecution qe = null;
-//			String service = "https://query.wikidata.org/sparql";
-//			String Sparql_query =
-//
-//					"prefix dbpediaont: <http://dbpedia.org/>\n"
-//							+ "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-//							+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "
-//							+ "PREFIX wd: <http://www.wikidata.org/entity/>"
-//							+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/> "
-//							+ "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> "
-//							+ "PREFIX wikibase: <http://wikiba.se/ontology#>"
-//
-//							+ "SELECT ?property ?count WHERE {" + "SELECT ?property (COUNT(?item) AS ?count) WHERE {"
-//							+ " ?item ?statement" + " wd:" + x + " ."
-//							+ " ?property wikibase:statementProperty ?statement ." + "} GROUP BY ?property "
-//							+ "} ORDER BY DESC(?count)";
-//
-//			try {
-//				ParameterizedSparqlString query = new ParameterizedSparqlString(Sparql_query);
-//				
-//				Query q = QueryFactory.create(query.toString());
-//				qe = QueryExecutionFactory.sparqlService(service, q);
-//				
-//				
-//				int k = 0;
-//				ResultSet results = qe.execSelect();
-//				int counter = 0;
-//				if (results.hasNext()) {
-//					for (; results.hasNext();) {
-//						LOG.info("inside for loop");
-//						counter++;
-//
-//						QuerySolution sol = (QuerySolution) results.next();
-//
-//						property = sol.get("?property");
-//						propCount = sol.get("?count");
-//
-//						listofProp.add(property.toString());
-//
-//						wikiDataResultsForRelations = wikiDataResultsForRelations + property.toString() + ","
-//								+ propCount.toString() + ",,";
-//						LOG.info(property.toString());
-//
-//					}
-//				} else {
-//					String ResultChecker = "NO";
-//				}
-//
-//			} catch (Exception e) {
-//				LOG.info(e.getMessage());
-//
-//			} finally {
-//				
-//				property = null;
-//				propCount = null;
-//				boolean flag = true;
-//			}
-//		}
-//
-//		wikiDataResultsForRelations = wikiDataResultsForRelations.replaceAll("null,", "");
-//
-//		String wikiOutput[] = wikiDataResultsForRelations.split(",,");
-//
-//		tstcase.setRelations(listofProp);
-//
-//		for (int i = 0; i < wikiOutput.length; i++) {
-//
-//			String labelforID = getLabelFromID(
-//					wikiOutput[i].substring(wikiOutput[i].indexOf("/entity/"), wikiOutput[i].indexOf(",")));
-//
-////			relationSetForEntity = relationSetForEntity + "<Relations>" + labelforID + ","
-////					+ wikiOutput[i].replaceAll("\\^\\^http://www.w3.org/2001/XMLSchema#integer", "") + "</Relations>"
-////					+ "\n";
-//
-//		}
-//
-//	}
 }
