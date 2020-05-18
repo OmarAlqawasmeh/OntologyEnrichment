@@ -8,10 +8,12 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -58,7 +60,7 @@ import fr.lahc.outputFormatter.TestSuite;
  *
  * 
  */
-
+@SuppressWarnings("unchecked")
 public class Main {
 	static final Logger LOG = LoggerFactory.getLogger("fr.lahc.enrichontologies" + ".Main");
 	static boolean fileSelected = false;
@@ -73,11 +75,13 @@ public class Main {
 	private static File directory;
 	public static final String LOG_FILE_NAME = directory + File.separator + "output.log";
 
-	private static GetKeywords candidateKeywords = new GetKeywords();
+//	private static AskForCandidateKeywords candidateKeywords = new AskForCandidateKeywords();
 	static boolean initOntology;
 	static boolean includeClasses;
 	static boolean includeRelations;
 	static boolean includeInstances;
+	static boolean hitKeyword;
+
 	public static boolean isTheConsoleActive = false;
 	static String kw;
 
@@ -90,7 +94,7 @@ public class Main {
 	private static TestSuite ts = new TestSuite();
 
 	public static void main(String[] args) throws IOException, ParseException {
-		
+
 		if (isTheConsoleActive == true) {
 			openConsole();
 
@@ -106,25 +110,42 @@ public class Main {
 			includeClasses = cl.hasOption(ARG_INCLUDE_CLASSES);
 			includeRelations = cl.hasOption(ARG_INCLUDE_RELATIONS);
 			includeInstances = cl.hasOption(ARG_INCLUDE_INSTANCES);
+			hitKeyword = cl.hasOption(ARG_KW);
 
 			String dirName = cl.getOptionValue(ARG_PUSH);
 			directory = new File(dirName).getCanonicalFile();
 
-			LOG.info(directory.getAbsolutePath());
 
-			if (!initOntology) {
-				LOG.info("Please enter an ontology to start");
+			if (!initOntology || !hitKeyword) {
+				if (!initOntology) {
+					LOG.error("Please enter an ontology to start");
+				}
+				if (!hitKeyword) {
+					LOG.error("Please enter a hit keyword to start");
+				}
 				System.exit(0);
 			}
 
 			else {
 
-				// candidateKeywords.candidateKeywords(directory.getAbsolutePath());
+				LOG.info("Targeted ontology:\t" + directory.getAbsolutePath());
+				
+				String hitKW = cl.getOptionValue(ARG_KW);
+				
+				LOG.info("Hit keyword:\t" + hitKW);
 
-				LOG.info("OMAR \t\t" + directory.getAbsolutePath());
-
-				kw = candidateKeywords.askLuceneforKeyword(directory.getAbsolutePath());
-
+				LOG.info("Exctracting the set of candidate keywords from ontology:\t" + directory.getAbsolutePath());
+				AskForCandidateKeywords candidateKeywords = new AskForCandidateKeywords();
+				
+				LOG.info("Please type in one keyword among these candidate keywords:\n"
+				+candidateKeywords.askLuceneforKeyword(directory.getAbsolutePath(), hitKW));
+				
+				LOG.info("Enter the keyword:\n");
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				kw = br.readLine();
+				
+				
+				//kw="";//user input
 				LOG.info("Retrieved keyword is:\t\t" + kw);
 
 				AskDBpedia obj = new AskDBpedia();
@@ -148,9 +169,8 @@ public class Main {
 
 			// to include instances
 			if (includeInstances) {
-				AskNell obj4 = new AskNell();
 				try {
-					obj4.getIndividuals(kw, tstcase);
+					AskNell.getIndividuals(kw, tstcase);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

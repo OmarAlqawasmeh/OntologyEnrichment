@@ -24,9 +24,15 @@ public class CMDConfigurations {
 	public static final String ARG_HELP_LONG = "help";
 	public static final String ARG_HELP_MAN = "Show help";
 	
+	
+	public static final String ARG_KW = "kw";
+	public static final String ARG_KW_LONG = "keyword";
+	public static final String ARG_KW_MAN = "Insert a hit-keyword to start the enrichment process";
+	
+	
 	public static final String ARG_PUSH = "p";
 	public static final String ARG_PUSH_LONG = "push";
-	public static final String ARG_PUSH_MAN = "Initialize and push an ontology to fuseki server";
+	public static final String ARG_PUSH_MAN = "Initialize and push to extract set of candidate keywords";
 
 	public static final String ARG_INCLUDE_CLASSES = "c";
 	public static final String ARG_DIRECTORY_LONG = "class";
@@ -51,6 +57,7 @@ public class CMDConfigurations {
 	public static Options getCMDOptions() {
 		return new Options().addOption(ARG_HELP, ARG_HELP_LONG, false, ARG_HELP_MAN)
 				.addOption(ARG_PUSH, ARG_PUSH_LONG, true, ARG_PUSH_MAN)
+				.addOption(ARG_KW, ARG_KW_LONG, true, ARG_KW_MAN)
 				.addOption(ARG_INCLUDE_CLASSES, ARG_DIRECTORY_LONG, false, ARG_INCLUDE_CLASSES_MAN)
 				.addOption(ARG_INCLUDE_RELATIONS, ARG_INCLUDE_RELATIONS_LONG, false, ARG_INCLUDE_RELATIONS_MAN)
 				.addOption(ARG_INCLUDE_INSTANCES, ARG_INCLUDE_INSTANCES_LONG, false, ARG_INCLUDE_INSTANCESY_MAN);

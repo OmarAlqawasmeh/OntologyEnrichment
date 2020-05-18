@@ -3,10 +3,10 @@
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/outputFormatter/TestSuite.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/CMDConfigurations.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/AskNell.java
-/home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/GetKeywords.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/outputFormatter/Property.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/EnrichOntologies.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/outputFormatter/TestCase.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/Main.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/AskDBpedia.java
 /home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/JTextAreaAppender.java
+/home/omar/workspaceEmse/OntologyEnrichment/src/main/java/fr/lahc/enrichontologies/AskForCandidateKeywords.java

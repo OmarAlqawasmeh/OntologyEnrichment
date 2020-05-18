@@ -33,13 +33,12 @@ public class AskNell {
 		
 		LOG.info("inside NELL");
 
-		String IndividualsFileNELL = "/data/PhD/NELL/nellFiles/NELL.08m.1040.esv.csv";
+		String IndividualsFileNELL = "/data/Doctoral-thesis-work/NELL/nellFiles/NELL.08m.1040.esv.csv";
 		String AllIndividuals = null;
 		String candidateEntityFromNELL = null;
 		BufferedReader br = null;
 		FileReader fr = null;
 
-		PrintWriter writer = new PrintWriter("/home/omar/Desktop/initconstTool/output.xml", "UTF-8");
 		System.out.println("start");
 
 		String arr[] = { entity };
