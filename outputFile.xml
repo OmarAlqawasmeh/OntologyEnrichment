@@ -20,19 +20,19 @@
         <relations>domain of saint or deity@en-gb</relations>
         <relations>typically sells@en</relations>
         <relations>main category topic@en-gb</relations>
-        <relations>people or cargo transported@en-gb</relations>
         <relations>contains@en</relations>
         <relations>commemorates@en-gb</relations>
         <relations>business division@en-gb</relations>
+        <relations>people or cargo transported@en-gb</relations>
         <relations>this taxon is source of@en-gb</relations>
         <relations>category combines topics@en-gb</relations>
-        <relations>inspired by@en-gb</relations>
-        <relations>classification of race@en</relations>
-        <relations>is a list of@en-gb</relations>
         <relations>had as last meal@en</relations>
         <relations>field of this profession@en-gb</relations>
         <relations>use@en-gb</relations>
         <relations>part of@en-gb</relations>
+        <relations>inspired by@en-gb</relations>
+        <relations>classification of race@en</relations>
+        <relations>is a list of@en-gb</relations>
         <relations>designed to carry@en-gb</relations>
         <relations>has quality@en-gb</relations>
         <instances>"Carneros Creek" "carneros creek" ,http://en.wikipedia.org/wiki/Carneros%20Creek</instances>
