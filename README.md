@@ -1,4 +1,4 @@
-# This code is currently under development.
+# An updated/enhanced version to be released soon.
 
 # A semi-automatic approach for ontology enrichment using external knowledge bases
 
