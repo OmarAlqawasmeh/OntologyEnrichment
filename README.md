@@ -14,7 +14,7 @@ A semi-automatic approach to enrich ontologies using external knowledge bases
    - `java -jar ...`
 
 
-# To cite please refer to:
-	
-Qawasmeh, O., Lefranois, M., Zimmermann, A., & Maret, P. (2018, June). Computer-assisted Ontology Construction System: Focus on Bootstrapping Capabilities. In European Semantic Web Conference (pp. 60-65). Springer, Cham.
+## To cite please refer to:
+
+- Qawasmeh, Omar, Maxime Lefranois, Antoine Zimmermann, and Pierre Maret. "Computer-assisted Ontology Construction System: Focus on Bootstrapping Capabilities." In European Semantic Web Conference, pp. 60-65. Springer, Cham, 2018.
 
