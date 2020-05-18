@@ -1,3 +1,0 @@
-11:37,497 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.GetKeywords:38 - Initilizing ontology /data/saref-core/ontology/saref.ttl and pushing it to fuseki server to extract keywords
-11:38,748 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.GetKeywords:52 - In write transaction
-11:38,754 AWT-EventQueue-0 INFO  fr.lahc.enrichontologies.GetKeywords:55 - Writing finished ...
