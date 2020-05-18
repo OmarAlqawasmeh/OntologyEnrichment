@@ -6,14 +6,14 @@ A semi-automatic approach to enrich ontologies using external knowledge bases
 
 # Usage:
 
-1) Download and place the NELL knowledge base file at the resources folder:
-	`NELL.08m.1040.esv.csv` http://rtw.ml.cmu.edu/resources/results/08m/NELL.08m.1040.cesv.csv.gz
+1) Download and place the NELL knowledge base file at the resources folder 
+	`NELL.08m.1040.esv.csv: http://rtw.ml.cmu.edu/resources/results/08m/NELL.08m.1040.cesv.csv.gz`
 
 
 2) To compile and run the jar file, run the following command:
 
 
- java -jar 
+ `java -jar ...`
 
 
 # To cite please refer to:
