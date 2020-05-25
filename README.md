@@ -1,11 +1,8 @@
 # A semi-automatic approach for ontology enrichment using external knowledge bases
 
-A semi-automatic approach to enrich ontologies using external knowledge bases
-
 ## Description:
 
 A semi-automatic approach for ontology enrichment based on the usage of three external knowledge bases: DBpedia, WikiData, and NELL. The main aim of this approach is to suggest a set of classes, relations and instances to be used as a help during the evolution process of an ontology. 
-
 
 
 ## Usage:
