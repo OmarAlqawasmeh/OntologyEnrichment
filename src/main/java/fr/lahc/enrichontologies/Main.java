@@ -75,7 +75,6 @@ public class Main {
 	private static File directory;
 	public static final String LOG_FILE_NAME = directory + File.separator + "output.log";
 
-//	private static AskForCandidateKeywords candidateKeywords = new AskForCandidateKeywords();
 	static boolean initOntology;
 	static boolean includeClasses;
 	static boolean includeRelations;
@@ -85,10 +84,6 @@ public class Main {
 	public static boolean isTheConsoleActive = false;
 	static String kw;
 
-//	private static TestCase getClasses = new TestCase(); 
-//	private static TestCase getRelations = new TestCase();
-//	private static TestCase getInstances = new TestCase();
-
 	private static TestCase tstcase = new TestCase();
 
 	private static TestSuite ts = new TestSuite();
@@ -96,7 +91,7 @@ public class Main {
 	public static void main(String[] args) throws IOException, ParseException {
 
 		if (isTheConsoleActive == true) {
-			openConsole();
+			//openConsole();
 
 		} else {
 
@@ -115,7 +110,6 @@ public class Main {
 			String dirName = cl.getOptionValue(ARG_PUSH);
 			directory = new File(dirName).getCanonicalFile();
 
-
 			if (!initOntology || !hitKeyword) {
 				if (!initOntology) {
 					LOG.error("Please enter an ontology to start");
@@ -129,23 +123,22 @@ public class Main {
 			else {
 
 				LOG.info("Targeted ontology:\t" + directory.getAbsolutePath());
-				
+
 				String hitKW = cl.getOptionValue(ARG_KW);
-				
+
 				LOG.info("Hit keyword:\t" + hitKW);
 
 				LOG.info("Exctracting the set of candidate keywords from ontology:\t" + directory.getAbsolutePath());
 				AskForCandidateKeywords candidateKeywords = new AskForCandidateKeywords();
-				
+
 				LOG.info("Please type in one keyword among these candidate keywords:\n"
-				+candidateKeywords.askLuceneforKeyword(directory.getAbsolutePath(), hitKW));
-				
+						+ candidateKeywords.askLuceneforKeyword(directory.getAbsolutePath(), hitKW));
+
 				LOG.info("Enter the keyword:\n");
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 				kw = br.readLine();
-				
-				
-				//kw="";//user input
+
+				// kw="";//user input
 				LOG.info("Retrieved keyword is:\t\t" + kw);
 
 				AskDBpedia obj = new AskDBpedia();
@@ -207,189 +200,189 @@ public class Main {
 
 	}
 
-	private static boolean openConsole() throws IOException {
-		setGUIAppenders();
-		setLogAppenders();
-
-		frame = new JFrame("Ontology enrichment");
-		frame.setBounds(100, 100, 800, 400);
-		SwingUtilities.updateComponentTreeUI(frame);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		JLabel lblWelcomeToSarefpipeline = new JLabel("Ontology enrichment using existing knowledge bases");
-		infoPanel.add(lblWelcomeToSarefpipeline);
-
-		frame.getContentPane().add(functionalitiesPanel, BorderLayout.SOUTH);
-
-		JCheckBox classes_checkBox = new JCheckBox("Suggest new classes to add");
-
-		JCheckBox relation_checkBox = new JCheckBox("Suggest new relations to add");
-
-		JCheckBox instanses_checkBox = new JCheckBox("Suggest new instanses to add");
-
-		JButton startBtn = new JButton("Start the process");
-
-		JButton fileChooserBtn = new JButton("Select an ontology");
-		fileChooserBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				if (lastPath != null) {
-
-					fileChooser = new JFileChooser(lastPath);
-
-				} else {
-					fileChooser = new JFileChooser();
-				}
-
-				// fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int option = fileChooser.showOpenDialog(frame);
-				if (option == JFileChooser.APPROVE_OPTION) {
-
-					directory = fileChooser.getSelectedFile();
-
-//					try {
-//						candidateKeywords.candidateKeywords(directory.getAbsolutePath());
-//					} catch (FileNotFoundException e) {
-//						// TODO Auto-generated catch block
-//						LOG.error(e.getMessage());
-//					}
-
-					fileSelected = true;
-					startBtn.setEnabled(true);
-					lblWelcomeToSarefpipeline
-							.setText("Ontology enrichment using existing knowledge bases for ontology" + directory);
-
-					// lastPath=directory.getParentFile();
-
-					lastPath = directory.getAbsolutePath();
-
-				} else {
-					LOG.info("Open command canceled");
-				}
-
-			}
-
-		});
-		functionalitiesPanel.add(fileChooserBtn);
-
-		startBtn.setEnabled(false);
-		startBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				includeClasses = classes_checkBox.isSelected();
-				includeRelations = relation_checkBox.isSelected();
-				includeInstances = instanses_checkBox.isSelected();
-				LOG.info(includeClasses + "\t" + includeRelations + "\t" + includeInstances);
-
-				AskDBpedia obj = new AskDBpedia();
-				obj.askDbpedia(obj.toTitleCase("wine"), tstcase);
-
-				if (includeClasses) {
-
-					AskWikidata obj2 = new AskWikidata();
-					obj2.askWikidataForClasses(obj2.getWikidataID("wine"), tstcase);
-
-				}
-
-				if (includeRelations) {
-
-					AskWikidata obj3 = new AskWikidata();
-					obj3.getProp(obj3.getWikidataID("wine"), tstcase);
-				}
-
-				if (includeInstances) {
-
-					AskNell obj4 = new AskNell();
-					try {
-						obj4.getIndividuals("wine", tstcase);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				ts.setTestcase(new TestCase[] { tstcase });
-				TestSuite.jaxbObjectToXML(ts);
-
-			}
-		});
-		functionalitiesPanel.add(startBtn);
-
-		JLabel emptylbl1 = new JLabel();
-		functionalitiesPanel.add(emptylbl1);
-
-		JLabel emptylbl2 = new JLabel();
-		functionalitiesPanel.add(emptylbl2);
-
-		JLabel lbl = new JLabel("What you would like to do:");
-		functionalitiesPanel.add(lbl);
-
-		JLabel emptylbl3 = new JLabel();
-		functionalitiesPanel.add(emptylbl3);
-
-		JLabel emptylbl4 = new JLabel();
-		functionalitiesPanel.add(emptylbl4);
-
-		JLabel emptylbl5 = new JLabel();
-		functionalitiesPanel.add(emptylbl5);
-
-//		JCheckBox ignoreGit_checkBox = new JCheckBox("No-git");
-//		ignoreGit_checkBox.setToolTipText("Only check the current state of the repository");
-//		ignoreGit_checkBox.setSelected(true);
-//		functionalitiesPanel.add(ignoreGit_checkBox);
-
+//	private static boolean openConsole() throws IOException {
+//		setGUIAppenders();
+//		setLogAppenders();
+//
+//		frame = new JFrame("Ontology enrichment");
+//		frame.setBounds(100, 100, 800, 400);
+//		SwingUtilities.updateComponentTreeUI(frame);
+//
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//		JLabel lblWelcomeToSarefpipeline = new JLabel("Ontology enrichment using existing knowledge bases");
+//		infoPanel.add(lblWelcomeToSarefpipeline);
+//
+//		frame.getContentPane().add(functionalitiesPanel, BorderLayout.SOUTH);
+//
 //		JCheckBox classes_checkBox = new JCheckBox("Suggest new classes to add");
-		classes_checkBox.setToolTipText("Do not check the directory itself.\n"
-				+ " Only consider the repositories listed in the `.saref-repositories.yml` document.\n"
-				+ " Used to generate the website for several extensions.");
-		functionalitiesPanel.add(classes_checkBox);
-
+//
 //		JCheckBox relation_checkBox = new JCheckBox("Suggest new relations to add");
-		relation_checkBox.setToolTipText(
-				"Check the master branches of the remote repositories listed in the `.saref-repositories.yml` document");
-		functionalitiesPanel.add(relation_checkBox);
-
+//
 //		JCheckBox instanses_checkBox = new JCheckBox("Suggest new instanses to add");
-		instanses_checkBox.setToolTipText("Do not generate the static website");
-		functionalitiesPanel.add(instanses_checkBox);
-
-//		JCheckBox ignoreExamples_checkBox = new JCheckBox("Ignore examples");
-//		ignoreExamples_checkBox.setToolTipText("Only check the SAREF extension ontology. Ignore the examples");
-//		functionalitiesPanel.add(ignoreExamples_checkBox);
 //
-//		JCheckBox verbose_checkBox = new JCheckBox("Verbose");
-//		verbose_checkBox.setToolTipText("Use verbose mode.\n"
-//				+ "(For example, use SPARQL-Generate in --debug-template mode when generating the documentation)");
-//		functionalitiesPanel.add(verbose_checkBox);
+//		JButton startBtn = new JButton("Start the process");
 //
-//		JCheckBox ignoreTerms_checkBox = new JCheckBox("Ignore terms");
-//		ignoreTerms_checkBox.setToolTipText("Do not generate the website for terms");
-//		functionalitiesPanel.add(ignoreTerms_checkBox);
-
-		FlowLayout flowLayout_1 = (FlowLayout) infoPanel.getLayout();
-		flowLayout_1.setVgap(20);
-		flowLayout_1.setHgap(20);
-		frame.getContentPane().add(infoPanel, BorderLayout.NORTH);
-
-		frame.getContentPane().add(textAreaPanel, BorderLayout.CENTER);
-		txtConsole.setColumns(70);
-		txtConsole.setRows(15);
-		txtConsole.setEditable(false);
-
-		textAreaPanel.add(txtConsole);
-
-		scroll = new JScrollPane(txtConsole, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		frame.add(scroll);
-
-		frame.pack();
-		frame.setResizable(true);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		return true;
-	}
+//		JButton fileChooserBtn = new JButton("Select an ontology");
+//		fileChooserBtn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//
+//				if (lastPath != null) {
+//
+//					fileChooser = new JFileChooser(lastPath);
+//
+//				} else {
+//					fileChooser = new JFileChooser();
+//				}
+//
+//				// fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+//				int option = fileChooser.showOpenDialog(frame);
+//				if (option == JFileChooser.APPROVE_OPTION) {
+//
+//					directory = fileChooser.getSelectedFile();
+//
+////					try {
+////						candidateKeywords.candidateKeywords(directory.getAbsolutePath());
+////					} catch (FileNotFoundException e) {
+////						// TODO Auto-generated catch block
+////						LOG.error(e.getMessage());
+////					}
+//
+//					fileSelected = true;
+//					startBtn.setEnabled(true);
+//					lblWelcomeToSarefpipeline
+//							.setText("Ontology enrichment using existing knowledge bases for ontology" + directory);
+//
+//					// lastPath=directory.getParentFile();
+//
+//					lastPath = directory.getAbsolutePath();
+//
+//				} else {
+//					LOG.info("Open command canceled");
+//				}
+//
+//			}
+//
+//		});
+//		functionalitiesPanel.add(fileChooserBtn);
+//
+//		startBtn.setEnabled(false);
+//		startBtn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//
+//				includeClasses = classes_checkBox.isSelected();
+//				includeRelations = relation_checkBox.isSelected();
+//				includeInstances = instanses_checkBox.isSelected();
+//				LOG.info(includeClasses + "\t" + includeRelations + "\t" + includeInstances);
+//
+//				AskDBpedia obj = new AskDBpedia();
+//				obj.askDbpedia(obj.toTitleCase("wine"), tstcase);
+//
+//				if (includeClasses) {
+//
+//					AskWikidata obj2 = new AskWikidata();
+//					obj2.askWikidataForClasses(obj2.getWikidataID("wine"), tstcase);
+//
+//				}
+//
+//				if (includeRelations) {
+//
+//					AskWikidata obj3 = new AskWikidata();
+//					obj3.getProp(obj3.getWikidataID("wine"), tstcase);
+//				}
+//
+//				if (includeInstances) {
+//
+//					AskNell obj4 = new AskNell();
+//					try {
+//						obj4.getIndividuals("wine", tstcase);
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//
+//				ts.setTestcase(new TestCase[] { tstcase });
+//				TestSuite.jaxbObjectToXML(ts);
+//
+//			}
+//		});
+//		functionalitiesPanel.add(startBtn);
+//
+//		JLabel emptylbl1 = new JLabel();
+//		functionalitiesPanel.add(emptylbl1);
+//
+//		JLabel emptylbl2 = new JLabel();
+//		functionalitiesPanel.add(emptylbl2);
+//
+//		JLabel lbl = new JLabel("What you would like to do:");
+//		functionalitiesPanel.add(lbl);
+//
+//		JLabel emptylbl3 = new JLabel();
+//		functionalitiesPanel.add(emptylbl3);
+//
+//		JLabel emptylbl4 = new JLabel();
+//		functionalitiesPanel.add(emptylbl4);
+//
+//		JLabel emptylbl5 = new JLabel();
+//		functionalitiesPanel.add(emptylbl5);
+//
+////		JCheckBox ignoreGit_checkBox = new JCheckBox("No-git");
+////		ignoreGit_checkBox.setToolTipText("Only check the current state of the repository");
+////		ignoreGit_checkBox.setSelected(true);
+////		functionalitiesPanel.add(ignoreGit_checkBox);
+//
+////		JCheckBox classes_checkBox = new JCheckBox("Suggest new classes to add");
+//		classes_checkBox.setToolTipText("Do not check the directory itself.\n"
+//				+ " Only consider the repositories listed in the `.saref-repositories.yml` document.\n"
+//				+ " Used to generate the website for several extensions.");
+//		functionalitiesPanel.add(classes_checkBox);
+//
+////		JCheckBox relation_checkBox = new JCheckBox("Suggest new relations to add");
+//		relation_checkBox.setToolTipText(
+//				"Check the master branches of the remote repositories listed in the `.saref-repositories.yml` document");
+//		functionalitiesPanel.add(relation_checkBox);
+//
+////		JCheckBox instanses_checkBox = new JCheckBox("Suggest new instanses to add");
+//		instanses_checkBox.setToolTipText("Do not generate the static website");
+//		functionalitiesPanel.add(instanses_checkBox);
+//
+////		JCheckBox ignoreExamples_checkBox = new JCheckBox("Ignore examples");
+////		ignoreExamples_checkBox.setToolTipText("Only check the SAREF extension ontology. Ignore the examples");
+////		functionalitiesPanel.add(ignoreExamples_checkBox);
+////
+////		JCheckBox verbose_checkBox = new JCheckBox("Verbose");
+////		verbose_checkBox.setToolTipText("Use verbose mode.\n"
+////				+ "(For example, use SPARQL-Generate in --debug-template mode when generating the documentation)");
+////		functionalitiesPanel.add(verbose_checkBox);
+////
+////		JCheckBox ignoreTerms_checkBox = new JCheckBox("Ignore terms");
+////		ignoreTerms_checkBox.setToolTipText("Do not generate the website for terms");
+////		functionalitiesPanel.add(ignoreTerms_checkBox);
+//
+//		FlowLayout flowLayout_1 = (FlowLayout) infoPanel.getLayout();
+//		flowLayout_1.setVgap(20);
+//		flowLayout_1.setHgap(20);
+//		frame.getContentPane().add(infoPanel, BorderLayout.NORTH);
+//
+//		frame.getContentPane().add(textAreaPanel, BorderLayout.CENTER);
+//		txtConsole.setColumns(70);
+//		txtConsole.setRows(15);
+//		txtConsole.setEditable(false);
+//
+//		textAreaPanel.add(txtConsole);
+//
+//		scroll = new JScrollPane(txtConsole, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+//				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		frame.add(scroll);
+//
+//		frame.pack();
+//		frame.setResizable(true);
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//
+//		return true;
+//	}
 
 }

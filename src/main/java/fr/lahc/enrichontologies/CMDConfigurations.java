@@ -32,7 +32,7 @@ public class CMDConfigurations {
 	
 	public static final String ARG_PUSH = "p";
 	public static final String ARG_PUSH_LONG = "push";
-	public static final String ARG_PUSH_MAN = "Initialize and push to extract set of candidate keywords";
+	public static final String ARG_PUSH_MAN = "Push an ontology to extract set of candidate keywords";
 
 	public static final String ARG_INCLUDE_CLASSES = "c";
 	public static final String ARG_DIRECTORY_LONG = "class";
